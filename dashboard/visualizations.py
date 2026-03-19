@@ -1,17 +1,31 @@
-import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
+import pandas as pd
 
 def plot_fraud_distribution(df):
-    fig = px.pie(df, names='is_fraud', title='Fraud vs Non-Fraud Distribution', color_discrete_sequence=['#00CC96', '#EF553B'])
+    target = 'Class' if 'Class' in df.columns else 'is_fraud'
+    fig = px.pie(df, names=target, title="Fraud vs Non-Fraud Distribution",
+                 color_discrete_sequence=['#2ecc71', '#e74c3c'])
     return fig
 
-def plot_amt_distribution(df):
-    fig = px.histogram(df, x='amt', color='is_fraud', barmode='overlay', title='Transaction Amount Distribution', nbins=50)
+def plot_amount_distribution(df):
+    col = 'Amount' if 'Amount' in df.columns else 'amt'
+    fig = px.histogram(df, x=col, color='Class' if 'Class' in df.columns else 'is_fraud', 
+                       title="Transaction Amount Distribution",
+                       marginal="box", nbins=50)
     return fig
 
 def plot_correlation_heatmap(df):
-    numeric_df = df.select_dtypes(include=['float64', 'int64'])
-    corr = numeric_df.corr()
-    fig = px.imshow(corr, text_auto=True, title='Feature Correlation Heatmap')
+    # Only plot V columns and Amount/Class
+    cols = [f'V{i}' for i in range(1, 29)] + (['Amount', 'Class'] if 'Class' in df.columns else ['amt', 'is_fraud'])
+    existing_cols = [c for c in cols if c in df.columns]
+    corr = df[existing_cols].corr()
+    fig = px.imshow(corr, title="Feature Correlation Matrix",
+                    color_continuous_scale='RdBu_r')
+    return fig
+
+def plot_v_features(df, v_num):
+    col = f'V{v_num}'
+    fig = px.violin(df, x='Class', y=col, color='Class', 
+                     title=f"Distribution of {col} by Class", box=True)
     return fig

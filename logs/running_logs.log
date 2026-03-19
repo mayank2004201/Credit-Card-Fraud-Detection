@@ -1,0 +1,189 @@
+[2026-03-19 17:07:03,145: INFO: main: >>>>>> stage Data Ingestion stage started <<<<<<]
+[2026-03-19 17:07:03,147: INFO: common: yaml file: config\config.yaml loaded successfully]
+[2026-03-19 17:07:03,147: INFO: common: yaml file: params.yaml loaded successfully]
+[2026-03-19 17:07:03,148: INFO: common: created directory at: artifacts]
+[2026-03-19 17:07:03,149: INFO: common: created directory at: artifacts/data_ingestion]
+[2026-03-19 17:07:03,218: INFO: data_ingestion: fraudTrain.csv copied to artifacts/data_ingestion]
+[2026-03-19 17:07:03,248: INFO: data_ingestion: fraudTest.csv copied to artifacts/data_ingestion]
+[2026-03-19 17:07:03,249: INFO: main: >>>>>> stage Data Ingestion stage completed <<<<<<
+
+x==========x]
+[2026-03-19 17:07:03,249: INFO: main: >>>>>> stage Data Validation stage started <<<<<<]
+[2026-03-19 17:07:03,250: INFO: common: yaml file: config\config.yaml loaded successfully]
+[2026-03-19 17:07:03,251: INFO: common: yaml file: params.yaml loaded successfully]
+[2026-03-19 17:07:03,251: INFO: common: created directory at: artifacts]
+[2026-03-19 17:07:03,251: INFO: common: created directory at: artifacts/data_validation]
+[2026-03-19 17:07:04,189: INFO: main: >>>>>> stage Data Validation stage completed <<<<<<
+
+x==========x]
+[2026-03-19 17:07:04,189: INFO: main: >>>>>> stage Data Transformation stage started <<<<<<]
+[2026-03-19 17:07:04,190: INFO: common: yaml file: config\config.yaml loaded successfully]
+[2026-03-19 17:07:04,190: INFO: common: yaml file: params.yaml loaded successfully]
+[2026-03-19 17:07:04,190: INFO: common: created directory at: artifacts]
+[2026-03-19 17:07:04,193: INFO: common: created directory at: artifacts/data_transformation]
+[2026-03-19 17:07:05,070: ERROR: main: "None of [Index(['amt', 'zip', 'lat', 'long', 'city_pop', 'unix_time', 'merch_lat',\n       'merch_long'],\n      dtype='object')] are in the [columns]"]
+Traceback (most recent call last):
+  File "C:\Mayank\Projects\Credit-Card-Fraud-Detection\main.py", line 42, in <module>
+    data_transformation.main()
+  File "C:\Mayank\Projects\Credit-Card-Fraud-Detection\src\fraud_detection\pipeline\stage_03_data_transformation.py", line 15, in main
+    data_transformation.get_data_transformation()
+  File "C:\Mayank\Projects\Credit-Card-Fraud-Detection\src\fraud_detection\components\data_transformation.py", line 55, in get_data_transformation
+    raise e
+  File "C:\Mayank\Projects\Credit-Card-Fraud-Detection\src\fraud_detection\components\data_transformation.py", line 19, in get_data_transformation
+    X = data[numeric_cols]
+        ~~~~^^^^^^^^^^^^^^
+  File "C:\Mayank\Projects\Credit-Card-Fraud-Detection\.venv\Lib\site-packages\pandas\core\frame.py", line 4119, in __getitem__
+    indexer = self.columns._get_indexer_strict(key, "columns")[1]
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Mayank\Projects\Credit-Card-Fraud-Detection\.venv\Lib\site-packages\pandas\core\indexes\base.py", line 6212, in _get_indexer_strict
+    self._raise_if_missing(keyarr, indexer, axis_name)
+  File "C:\Mayank\Projects\Credit-Card-Fraud-Detection\.venv\Lib\site-packages\pandas\core\indexes\base.py", line 6261, in _raise_if_missing
+    raise KeyError(f"None of [{key}] are in the [{axis_name}]")
+KeyError: "None of [Index(['amt', 'zip', 'lat', 'long', 'city_pop', 'unix_time', 'merch_lat',\n       'merch_long'],\n      dtype='object')] are in the [columns]"
+[2026-03-19 17:17:19,543: INFO: main: >>>>>> stage Data Ingestion stage started <<<<<<]
+[2026-03-19 17:17:19,545: INFO: common: yaml file: config\config.yaml loaded successfully]
+[2026-03-19 17:17:19,545: INFO: common: yaml file: params.yaml loaded successfully]
+[2026-03-19 17:17:19,545: INFO: common: created directory at: artifacts]
+[2026-03-19 17:17:19,546: INFO: common: created directory at: artifacts/data_ingestion]
+[2026-03-19 17:17:19,601: INFO: data_ingestion: fraudTrain.csv copied to artifacts/data_ingestion]
+[2026-03-19 17:17:19,615: INFO: data_ingestion: fraudTest.csv copied to artifacts/data_ingestion]
+[2026-03-19 17:17:19,615: INFO: main: >>>>>> stage Data Ingestion stage completed <<<<<<
+
+x==========x]
+[2026-03-19 17:17:19,616: INFO: main: >>>>>> stage Data Validation stage started <<<<<<]
+[2026-03-19 17:17:19,617: INFO: common: yaml file: config\config.yaml loaded successfully]
+[2026-03-19 17:17:19,617: INFO: common: yaml file: params.yaml loaded successfully]
+[2026-03-19 17:17:19,617: INFO: common: created directory at: artifacts]
+[2026-03-19 17:17:19,617: INFO: common: created directory at: artifacts/data_validation]
+[2026-03-19 17:17:20,556: INFO: main: >>>>>> stage Data Validation stage completed <<<<<<
+
+x==========x]
+[2026-03-19 17:17:20,556: INFO: main: >>>>>> stage Data Transformation stage started <<<<<<]
+[2026-03-19 17:17:20,556: INFO: common: yaml file: config\config.yaml loaded successfully]
+[2026-03-19 17:17:20,559: INFO: common: yaml file: params.yaml loaded successfully]
+[2026-03-19 17:17:20,559: INFO: common: created directory at: artifacts]
+[2026-03-19 17:17:20,560: INFO: common: created directory at: artifacts/data_transformation]
+[2026-03-19 17:17:21,573: INFO: data_transformation: Train test split completed]
+[2026-03-19 17:17:24,261: INFO: data_transformation: SMOTE completed. Resampled shape: (341134, 29)]
+[2026-03-19 17:17:24,486: INFO: data_transformation: Scaling completed]
+[2026-03-19 17:17:34,791: INFO: data_transformation: Saved transformed data to artifacts]
+[2026-03-19 17:17:34,811: INFO: main: >>>>>> stage Data Transformation stage completed <<<<<<
+
+x==========x]
+[2026-03-19 17:17:34,812: INFO: main: >>>>>> stage Model Training stage started <<<<<<]
+[2026-03-19 17:17:34,813: INFO: common: yaml file: config\config.yaml loaded successfully]
+[2026-03-19 17:17:34,814: INFO: common: yaml file: params.yaml loaded successfully]
+[2026-03-19 17:17:34,814: INFO: common: created directory at: artifacts]
+[2026-03-19 17:17:34,815: INFO: common: created directory at: artifacts/model_trainer]
+[2026-03-19 17:17:36,225: ERROR: main: "['is_fraud'] not found in axis"]
+Traceback (most recent call last):
+  File "C:\Mayank\Projects\Credit-Card-Fraud-Detection\main.py", line 52, in <module>
+    model_trainer.main()
+  File "C:\Mayank\Projects\Credit-Card-Fraud-Detection\src\fraud_detection\pipeline\stage_04_model_trainer.py", line 15, in main
+    model_trainer.train()
+  File "C:\Mayank\Projects\Credit-Card-Fraud-Detection\src\fraud_detection\components\model_trainer.py", line 60, in train
+    raise e
+  File "C:\Mayank\Projects\Credit-Card-Fraud-Detection\src\fraud_detection\components\model_trainer.py", line 18, in train
+    X_train = train_data.drop(['is_fraud'], axis=1)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Mayank\Projects\Credit-Card-Fraud-Detection\.venv\Lib\site-packages\pandas\core\frame.py", line 5603, in drop
+    return super().drop(
+           ^^^^^^^^^^^^^
+  File "C:\Mayank\Projects\Credit-Card-Fraud-Detection\.venv\Lib\site-packages\pandas\core\generic.py", line 4810, in drop
+    obj = obj._drop_axis(labels, axis, level=level, errors=errors)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Mayank\Projects\Credit-Card-Fraud-Detection\.venv\Lib\site-packages\pandas\core\generic.py", line 4852, in _drop_axis
+    new_axis = axis.drop(labels, errors=errors)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Mayank\Projects\Credit-Card-Fraud-Detection\.venv\Lib\site-packages\pandas\core\indexes\base.py", line 7136, in drop
+    raise KeyError(f"{labels[mask].tolist()} not found in axis")
+KeyError: "['is_fraud'] not found in axis"
+[2026-03-19 17:23:56,396: INFO: main: >>>>>> stage Data Ingestion stage started <<<<<<]
+[2026-03-19 17:23:56,398: INFO: common: yaml file: config\config.yaml loaded successfully]
+[2026-03-19 17:23:56,399: INFO: common: yaml file: params.yaml loaded successfully]
+[2026-03-19 17:23:56,399: INFO: common: created directory at: artifacts]
+[2026-03-19 17:23:56,399: INFO: common: created directory at: artifacts/data_ingestion]
+[2026-03-19 17:23:56,463: INFO: data_ingestion: fraudTrain.csv copied to artifacts/data_ingestion]
+[2026-03-19 17:23:56,484: INFO: data_ingestion: fraudTest.csv copied to artifacts/data_ingestion]
+[2026-03-19 17:23:56,485: INFO: main: >>>>>> stage Data Ingestion stage completed <<<<<<
+
+x==========x]
+[2026-03-19 17:23:56,485: INFO: main: >>>>>> stage Data Validation stage started <<<<<<]
+[2026-03-19 17:23:56,486: INFO: common: yaml file: config\config.yaml loaded successfully]
+[2026-03-19 17:23:56,487: INFO: common: yaml file: params.yaml loaded successfully]
+[2026-03-19 17:23:56,488: INFO: common: created directory at: artifacts]
+[2026-03-19 17:23:56,488: INFO: common: created directory at: artifacts/data_validation]
+[2026-03-19 17:23:57,728: INFO: main: >>>>>> stage Data Validation stage completed <<<<<<
+
+x==========x]
+[2026-03-19 17:23:57,729: INFO: main: >>>>>> stage Data Transformation stage started <<<<<<]
+[2026-03-19 17:23:57,731: INFO: common: yaml file: config\config.yaml loaded successfully]
+[2026-03-19 17:23:57,733: INFO: common: yaml file: params.yaml loaded successfully]
+[2026-03-19 17:23:57,734: INFO: common: created directory at: artifacts]
+[2026-03-19 17:23:57,734: ERROR: main: 'ConfigurationManager' object has no attribute 'schema']
+Traceback (most recent call last):
+  File "C:\Mayank\Projects\Credit-Card-Fraud-Detection\main.py", line 42, in <module>
+    data_transformation.main()
+  File "C:\Mayank\Projects\Credit-Card-Fraud-Detection\src\fraud_detection\pipeline\stage_03_data_transformation.py", line 13, in main
+    data_transformation_config = config.get_data_transformation_config()
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Mayank\Projects\Credit-Card-Fraud-Detection\src\fraud_detection\config\configuration.py", line 52, in get_data_transformation_config
+    schema = self.schema.TARGET_COLUMN
+             ^^^^^^^^^^^
+AttributeError: 'ConfigurationManager' object has no attribute 'schema'
+[2026-03-19 17:24:59,239: INFO: main: >>>>>> stage Data Ingestion stage started <<<<<<]
+[2026-03-19 17:24:59,241: INFO: common: yaml file: config\config.yaml loaded successfully]
+[2026-03-19 17:24:59,241: INFO: common: yaml file: params.yaml loaded successfully]
+[2026-03-19 17:24:59,243: INFO: common: yaml file: schema.yaml loaded successfully]
+[2026-03-19 17:24:59,243: INFO: common: created directory at: artifacts]
+[2026-03-19 17:24:59,244: INFO: common: created directory at: artifacts/data_ingestion]
+[2026-03-19 17:24:59,244: INFO: data_ingestion: fraudTrain.csv already exists in artifacts/data_ingestion]
+[2026-03-19 17:24:59,244: INFO: data_ingestion: fraudTest.csv already exists in artifacts/data_ingestion]
+[2026-03-19 17:24:59,244: INFO: main: >>>>>> stage Data Ingestion stage completed <<<<<<
+
+x==========x]
+[2026-03-19 17:24:59,244: INFO: main: >>>>>> stage Data Validation stage started <<<<<<]
+[2026-03-19 17:24:59,245: INFO: common: yaml file: config\config.yaml loaded successfully]
+[2026-03-19 17:24:59,246: INFO: common: yaml file: params.yaml loaded successfully]
+[2026-03-19 17:24:59,248: INFO: common: yaml file: schema.yaml loaded successfully]
+[2026-03-19 17:24:59,248: INFO: common: created directory at: artifacts]
+[2026-03-19 17:24:59,248: INFO: common: created directory at: artifacts/data_validation]
+[2026-03-19 17:25:00,065: INFO: main: >>>>>> stage Data Validation stage completed <<<<<<
+
+x==========x]
+[2026-03-19 17:25:00,065: INFO: main: >>>>>> stage Data Transformation stage started <<<<<<]
+[2026-03-19 17:25:00,067: INFO: common: yaml file: config\config.yaml loaded successfully]
+[2026-03-19 17:25:00,068: INFO: common: yaml file: params.yaml loaded successfully]
+[2026-03-19 17:25:00,068: INFO: common: yaml file: schema.yaml loaded successfully]
+[2026-03-19 17:25:00,068: INFO: common: created directory at: artifacts]
+[2026-03-19 17:25:00,068: INFO: common: created directory at: artifacts/data_transformation]
+[2026-03-19 17:25:00,974: INFO: data_transformation: Train test split completed]
+[2026-03-19 17:25:02,691: INFO: data_transformation: SMOTE completed. Resampled shape: (341134, 29)]
+[2026-03-19 17:25:02,861: INFO: data_transformation: Scaling completed]
+[2026-03-19 17:25:12,959: INFO: data_transformation: Saved transformed data to artifacts]
+[2026-03-19 17:25:12,968: INFO: main: >>>>>> stage Data Transformation stage completed <<<<<<
+
+x==========x]
+[2026-03-19 17:25:12,968: INFO: main: >>>>>> stage Model Training stage started <<<<<<]
+[2026-03-19 17:25:12,970: INFO: common: yaml file: config\config.yaml loaded successfully]
+[2026-03-19 17:25:12,971: INFO: common: yaml file: params.yaml loaded successfully]
+[2026-03-19 17:25:12,972: INFO: common: yaml file: schema.yaml loaded successfully]
+[2026-03-19 17:25:12,973: INFO: common: created directory at: artifacts]
+[2026-03-19 17:25:12,974: INFO: common: created directory at: artifacts/model_trainer]
+[2026-03-19 17:25:53,825: INFO: model_trainer: Model trained with n_est=50, depth=5, Score=0.9566475343999719]
+[2026-03-19 17:27:05,604: INFO: model_trainer: Model trained with n_est=50, depth=10, Score=0.9947000299002738]
+[2026-03-19 17:28:35,222: INFO: model_trainer: Model trained with n_est=50, depth=15, Score=0.999827047435905]
+[2026-03-19 17:30:08,694: INFO: model_trainer: Model trained with n_est=100, depth=5, Score=0.9570667245129479]
+[2026-03-19 17:33:06,648: INFO: model_trainer: Model trained with n_est=100, depth=10, Score=0.9948465998698459]
+[2026-03-19 17:36:17,307: INFO: model_trainer: Model trained with n_est=100, depth=15, Score=0.9998211846371221]
+[2026-03-19 17:38:26,609: INFO: model_trainer: Model trained with n_est=150, depth=5, Score=0.9561814418967327]
+[2026-03-19 17:42:02,077: WARNING: connectionpool: Retrying (Retry(total=6, connect=7, read=6, redirect=7, status=7)) after connection broken by 'RemoteDisconnected('Remote end closed connection without response')': /mayank2004201/Credit-Card-Fraud-Detection.mlflow/api/2.0/mlflow/runs/log-metric]
+[2026-03-19 17:42:06,532: WARNING: connectionpool: Retrying (Retry(total=5, connect=6, read=6, redirect=7, status=7)) after connection broken by 'NameResolutionError("HTTPSConnection(host='dagshub.com', port=443): Failed to resolve 'dagshub.com' ([Errno 11001] getaddrinfo failed)")': /mayank2004201/Credit-Card-Fraud-Detection.mlflow/api/2.0/mlflow/runs/log-metric]
+[2026-03-19 17:42:27,102: WARNING: connectionpool: Retrying (Retry(total=4, connect=5, read=6, redirect=7, status=7)) after connection broken by 'NameResolutionError("HTTPSConnection(host='dagshub.com', port=443): Failed to resolve 'dagshub.com' ([Errno 11001] getaddrinfo failed)")': /mayank2004201/Credit-Card-Fraud-Detection.mlflow/api/2.0/mlflow/runs/log-metric]
+[2026-03-19 17:42:55,325: WARNING: connectionpool: Retrying (Retry(total=3, connect=4, read=6, redirect=7, status=7)) after connection broken by 'NameResolutionError("HTTPSConnection(host='dagshub.com', port=443): Failed to resolve 'dagshub.com' ([Errno 11001] getaddrinfo failed)")': /mayank2004201/Credit-Card-Fraud-Detection.mlflow/api/2.0/mlflow/runs/log-metric]
+[2026-03-19 17:43:39,894: WARNING: connectionpool: Retrying (Retry(total=2, connect=3, read=6, redirect=7, status=7)) after connection broken by 'NameResolutionError("HTTPSConnection(host='dagshub.com', port=443): Failed to resolve 'dagshub.com' ([Errno 11001] getaddrinfo failed)")': /mayank2004201/Credit-Card-Fraud-Detection.mlflow/api/2.0/mlflow/runs/log-metric]
+[2026-03-19 17:44:44,885: WARNING: connectionpool: Retrying (Retry(total=1, connect=2, read=6, redirect=7, status=7)) after connection broken by 'NameResolutionError("HTTPSConnection(host='dagshub.com', port=443): Failed to resolve 'dagshub.com' ([Errno 11001] getaddrinfo failed)")': /mayank2004201/Credit-Card-Fraud-Detection.mlflow/api/2.0/mlflow/runs/log-metric]
+[2026-03-19 17:46:56,925: WARNING: connectionpool: Retrying (Retry(total=0, connect=1, read=6, redirect=7, status=7)) after connection broken by 'NameResolutionError("HTTPSConnection(host='dagshub.com', port=443): Failed to resolve 'dagshub.com' ([Errno 11001] getaddrinfo failed)")': /mayank2004201/Credit-Card-Fraud-Detection.mlflow/api/2.0/mlflow/runs/log-metric]
+[2026-03-19 17:47:08,978: WARNING: connectionpool: Retrying (Retry(total=6, connect=6, read=7, redirect=7, status=7)) after connection broken by 'NameResolutionError("HTTPSConnection(host='dagshub.com', port=443): Failed to resolve 'dagshub.com' ([Errno 11001] getaddrinfo failed)")': /mayank2004201/Credit-Card-Fraud-Detection.mlflow/api/2.0/mlflow/runs/get?run_uuid=ca74af5bb3424d0298c6347c01c57c00&run_id=ca74af5bb3424d0298c6347c01c57c00]
+[2026-03-19 17:47:13,502: WARNING: connectionpool: Retrying (Retry(total=5, connect=5, read=7, redirect=7, status=7)) after connection broken by 'NameResolutionError("HTTPSConnection(host='dagshub.com', port=443): Failed to resolve 'dagshub.com' ([Errno 11001] getaddrinfo failed)")': /mayank2004201/Credit-Card-Fraud-Detection.mlflow/api/2.0/mlflow/runs/get?run_uuid=ca74af5bb3424d0298c6347c01c57c00&run_id=ca74af5bb3424d0298c6347c01c57c00]
+[2026-03-19 17:47:22,119: WARNING: connectionpool: Retrying (Retry(total=4, connect=4, read=7, redirect=7, status=7)) after connection broken by 'NameResolutionError("HTTPSConnection(host='dagshub.com', port=443): Failed to resolve 'dagshub.com' ([Errno 11001] getaddrinfo failed)")': /mayank2004201/Credit-Card-Fraud-Detection.mlflow/api/2.0/mlflow/runs/get?run_uuid=ca74af5bb3424d0298c6347c01c57c00&run_id=ca74af5bb3424d0298c6347c01c57c00]

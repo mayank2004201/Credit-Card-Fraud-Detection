@@ -1,78 +1,111 @@
 import streamlit as st
 import pandas as pd
 import requests
-import os
-from dashboard.visualizations import plot_fraud_distribution, plot_amt_distribution, plot_correlation_heatmap
+import random
+from visualizations import plot_fraud_distribution, plot_amount_distribution, plot_correlation_heatmap, plot_v_features
 
-st.set_page_config(page_title="Fraud Detection Dashboard", layout="wide")
+st.set_page_config(page_title="FraudShield AI", layout="wide", page_icon="🛡️")
 
-st.title("🛡️ Credit Card Fraud Detection Platform")
+# Custom CSS for Premium Look
+st.markdown("""
+    <style>
+    .main { background-color: #0e1117; color: white; }
+    .stButton>button { width: 100%; border-radius: 5px; height: 3em; background-color: #e74c3c; color: white; }
+    .stMetric { background-color: #1f2937; padding: 15px; border-radius: 10px; }
+    </style>
+    """, unsafe_allow_html=True)
+
+st.title("🛡️ FraudShield AI: Detection Platform")
 st.markdown("---")
 
-# Load Sample Data for EDA
+tabs = st.tabs(["📊 Analytics Dashboard", "🔍 Real-Time Prediction", "⚙️ MLOps Tracking"])
+
+# Load sample data for viz
 @st.cache_data
 def load_data():
-    if os.path.exists("data/fraudTrain.csv"):
-        return pd.read_csv("data/fraudTrain.csv").head(1000)
-    return None
+    try:
+        return pd.read_csv("artifacts/data_ingestion/fraudTrain.csv").head(5000)
+    except:
+        return None
 
 df = load_data()
 
-tabs = st.tabs(["📊 Interactive EDA", "🔍 Real-Time Prediction", "⚙️ MLOps Tracking"])
-
 with tabs[0]:
-    st.header("Exploratory Data Analysis")
     if df is not None:
         col1, col2 = st.columns(2)
         with col1:
             st.plotly_chart(plot_fraud_distribution(df), use_container_width=True)
         with col2:
-            st.plotly_chart(plot_amt_distribution(df), use_container_width=True)
+            st.plotly_chart(plot_amount_distribution(df), use_container_width=True)
         
         st.plotly_chart(plot_correlation_heatmap(df), use_container_width=True)
+        
+        st.subheader("Deep Dive into PCA Features")
+        v_select = st.selectbox("Select Feature to Inspect:", [f"V{i}" for i in range(1, 29)])
+        v_num = int(v_select[1:])
+        st.plotly_chart(plot_v_features(df, v_num), use_container_width=True)
     else:
-        st.warning("Data not found. Please run the pipeline first.")
+        st.warning("Please run the training pipeline (main.py) to generate data for visualization.")
 
 with tabs[1]:
-    st.header("Test the Model")
-    st.write("Enter transaction details to predict fraud probability.")
+    st.subheader("Transaction Inference Engine")
     
-    with st.form("prediction_form"):
-        col1, col2 = st.columns(2)
-        with col1:
-            amt = st.number_input("Transaction Amount ($)", value=100.0)
-            zip_code = st.number_input("Zip Code", value=12345)
-            city_pop = st.number_input("City Population", value=50000)
-        with col2:
-            unix_time = st.number_input("Unix Time", value=1371251923)
-            lat = st.number_input("Latitude", value=40.0)
-            long = st.number_input("Longitude", value=-74.0)
-            
-        submit = st.form_submit_button("Predict")
+    col_a, col_b = st.columns([1, 3])
+    
+    with col_a:
+        if st.button("🎲 Generate Random Sample"):
+            if df is not None:
+                sample = df.sample(1).iloc[0]
+                st.session_state['sample_data'] = sample.to_dict()
+            else:
+                st.error("No training data available to sample from.")
+
+    # Form with 29 fields is too much, so we'll use a mix or a JSON area for "advanced" users,
+    # and a simplified view with a random sample populate.
+    
+    if 'sample_data' in st.session_state:
+        current_data = st.session_state['sample_data']
+    else:
+        current_data = {f"V{i}": 0.0 for i in range(1, 29)}
+        current_data["Amount"] = 100.0
+
+    with st.form("predict_form"):
+        st.info("The model expects 28 PCA-transformed features (V1-V28) and the Transaction Amount.")
+        
+        # Display major features or just a subset for the UI, but send all to the API
+        input_data = {}
+        
+        c1, c2, c3 = st.columns(3)
+        input_data["Amount"] = c1.number_input("Amount ($)", value=float(current_data.get("Amount", 0.0)))
+        input_data["V1"] = c2.number_input("V1 (Principal Component)", value=float(current_data.get("V1", 0.0)))
+        input_data["V2"] = c3.number_input("V2 (Principal Component)", value=float(current_data.get("V2", 0.0)))
+        
+        with st.expander("Adjust all 28 PCA Features"):
+            cols = st.columns(4)
+            for i in range(1, 29):
+                key = f"V{i}"
+                input_data[key] = cols[(i-1)%4].number_input(key, value=float(current_data.get(key, 0.0)), format="%.4f")
+
+        submit = st.form_submit_button("🛡️ ANALYZE TRANSACTION")
         
         if submit:
-            payload = {
-                "amt": amt, "zip": zip_code, "lat": lat, "long": long,
-                "city_pop": city_pop, "unix_time": unix_time,
-                "merch_lat": lat + 0.01, "merch_long": long + 0.01
-            }
             try:
-                response = requests.post("http://localhost:8080/predict", json=payload)
+                # Call FastAPI backend
+                response = requests.post("http://localhost:8080/predict", json=input_data)
                 result = response.json()
-                if result["prediction"] == 1:
-                    st.error("🚨 ALERT: Fraudulent Transaction Detected!")
+                
+                if result['prediction'] == 1:
+                    st.error("🚨 FRAUD DETECTED! High sensitivity alert.")
                 else:
-                    st.success("✅ Transaction is Legitimate.")
+                    st.success("✅ TRANSACTION SECURE. No fraud patterns detected.")
             except Exception as e:
-                st.error(f"API Error: {e}. Is the FastAPI server running?")
+                st.error(f"Prediction failed. Ensure API is running at localhost:8080. Error: {e}")
 
 with tabs[2]:
-    st.header("MLOps Lifecycle")
-    st.write("This project uses **MLflow** for experiment tracking and model registry.")
-    st.info("To view the full experiment history, run `mlflow ui` in your terminal.")
-    st.markdown("""
-    **Key Metrics Tracked:**
-    - Accuracy / Recall / F1-Score
-    - Hyperparameter tuning results
-    - Training duration
-    """)
+    st.subheader("MLOps Health Monitoring")
+    st.info("Check DagsHub for full experiment tracking results.")
+    st.metric("Model Version", "v1.0.0", "Production")
+    st.metric("Active Run Host", "DagsHub / MLflow")
+    
+    if st.button("Open MLflow Dashboard"):
+        st.info("Visit your DagsHub repository to view the MLflow UI.")

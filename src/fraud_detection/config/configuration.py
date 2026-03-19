@@ -15,7 +15,7 @@ class ConfigurationManager:
 
         self.config = read_yaml(config_filepath)
         self.params = read_yaml(params_filepath)
-        # self.schema = read_yaml(schema_filepath) # If schema needed
+        self.schema = read_yaml(schema_filepath)
 
         create_directories([self.config.artifacts_root])
 
@@ -49,12 +49,14 @@ class ConfigurationManager:
 
     def get_data_transformation_config(self) -> DataTransformationConfig:
         config = self.config.data_transformation
+        schema = self.schema.TARGET_COLUMN
 
         create_directories([config.root_dir])
 
         data_transformation_config = DataTransformationConfig(
             root_dir=config.root_dir,
             data_path=config.data_path,
+            target_column=schema.name
         )
 
         return data_transformation_config
@@ -62,6 +64,7 @@ class ConfigurationManager:
     def get_model_trainer_config(self) -> ModelTrainerConfig:
         config = self.config.model_trainer
         params = self.params.RandomForest
+        schema = self.schema.TARGET_COLUMN
 
         create_directories([config.root_dir])
 
@@ -70,6 +73,7 @@ class ConfigurationManager:
             train_data_path=config.train_data_path,
             test_data_path=config.test_data_path,
             model_name=config.model_name,
+            target_column=schema.name,
             n_estimators=params.n_estimators,
             max_depth=params.max_depth,
             min_samples_split=params.min_samples_split,
@@ -90,8 +94,8 @@ class ConfigurationManager:
             model_path=config.model_path,
             all_params=params,
             metric_file_name=config.metric_file_name,
-            target_column="is_fraud",
-            mlflow_uri="https://dagshub.com/mayank2004201/Credit-Card-Fraud-Detection.mlflow" # Placeholder Dagshub URI
+            target_column=self.schema.TARGET_COLUMN.name,
+            mlflow_uri="https://dagshub.com/mayank2004201/Credit-Card-Fraud-Detection.mlflow" 
         )
 
         return model_evaluation_config

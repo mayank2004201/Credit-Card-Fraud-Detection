@@ -14,15 +14,11 @@ class DataTransformation:
         try:
             data = pd.read_csv(self.config.data_path)
 
-            # Basic Preprocessing (Selecting numeric features for simplicity)
-            numeric_cols = ["amt", "zip", "lat", "long", "city_pop", "unix_time", "merch_lat", "merch_long"]
+            # Use the V1-V28 and Amount columns from the dataset
+            v_cols = [f'V{i}' for i in range(1, 29)]
+            numeric_cols = v_cols + ['Amount']
             X = data[numeric_cols]
-            y = data["is_fraud"]
-
-            # Handle outliers (Capping at 99th percentile for 'amt')
-            q = X["amt"].quantile(0.99)
-            X["amt"] = X["amt"].clip(upper=q)
-            logger.info("Outliers capped for column 'amt'")
+            y = data[self.config.target_column]
 
             # Train Test Split
             X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=42)
@@ -41,10 +37,10 @@ class DataTransformation:
 
             # Combine back to dataframe for saving
             train_df = pd.DataFrame(X_train_res, columns=numeric_cols)
-            train_df["is_fraud"] = y_train_res
+            train_df["Class"] = y_train_res
             
             test_df = pd.DataFrame(X_test, columns=numeric_cols)
-            test_df["is_fraud"] = y_test.values
+            test_df["Class"] = y_test.values
 
             train_df.to_csv(os.path.join(self.config.root_dir, "train.csv"), index=False)
             test_df.to_csv(os.path.join(self.config.root_dir, "test.csv"), index=False)

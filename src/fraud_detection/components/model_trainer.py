@@ -15,8 +15,8 @@ class ModelTrainer:
         try:
             train_data = pd.read_csv(self.config.train_data_path)
             
-            X_train = train_data.drop(['is_fraud'], axis=1)
-            y_train = train_data['is_fraud']
+            X_train = train_data.drop([self.config.target_column], axis=1)
+            y_train = train_data[self.config.target_column]
 
             # Hyperparameter Tuning Loop (Simplified Grid Search for MLflow Demo)
             n_estimators_list = [50, 100, 150]

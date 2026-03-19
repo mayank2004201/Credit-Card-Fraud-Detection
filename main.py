@@ -1,5 +1,6 @@
 import sys
 import os
+os.environ["PYTHONUTF8"] = "1"
 from dotenv import load_dotenv
 load_dotenv()
 

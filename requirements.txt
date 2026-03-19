@@ -11,7 +11,7 @@ uvicorn
 streamlit
 python-dotenv
 PyYAML
-python-box
+python-box==6.0.2
 ensure
 joblib
 scipy
